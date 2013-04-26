@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+# Sets up a fresh CentOS 6 box to run Hadoop (HDP 1.2 from Hortonworks).
+
 # Set up nameservers.
 # http://ithelpblog.com/os/linux/redhat/centos-redhat/howto-fix-couldnt-resolve-host-on-centos-redhat-rhel-fedora/
 # http://stackoverflow.com/a/850731/1486325
@@ -7,11 +10,12 @@ echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
 ### Update packages. ###
 sudo yum --assumeyes update
 
-### Install JDK 1.6 ###
+### Install Java ###
 # http://docs.hortonworks.com/HDPDocuments/HDP1/HDP-1.2.3.1/bk_installing_manually_book/content/rpm-chap1-2.html#rpm-chap1-2-5
+# HDP says it wants Oracle JDK 1.6; I say too bad.
 sudo yum --assumeyes install java-1.7.0-openjdk.x86_64
 
-# Symlink java where hadoop will look for it.
+# Symlink java where Hadoop will look for it.
 sudo mkdir /usr/java
 sudo ln -s /usr/lib/jvm/jre-1.7.0 /usr/java/default
 
@@ -106,7 +110,8 @@ sudo chmod a+x $HADOOP_CONF_DIR/
 sudo chown -R $HDFS_USER:$HADOOP_GROUP $HADOOP_CONF_DIR/../
 sudo chmod -R 755 $HADOOP_CONF_DIR/../
 
-### Initialize Hadoop. ###
+### Initialize Hadoop and test it. ###
+# http://docs.hortonworks.com/HDPDocuments/HDP1/HDP-1.2.3.1/bk_installing_manually_book/content/rpm-chap4.html
 sudo -u $HDFS_USER /usr/lib/hadoop/bin/hadoop namenode -format -nonInteractive -force
 sudo -u $HDFS_USER /usr/lib/hadoop/bin/hadoop-daemon.sh --config $HADOOP_CONF_DIR start namenode
 sudo -u $HDFS_USER /usr/lib/hadoop/bin/hadoop-daemon.sh --config $HADOOP_CONF_DIR start secondarynamenode
@@ -118,7 +123,7 @@ sudo -u $MAPRED_USER /usr/lib/hadoop/bin/hadoop-daemon.sh --config $HADOOP_CONF_
 sudo -u $MAPRED_USER /usr/lib/hadoop/bin/hadoop-daemon.sh --config $HADOOP_CONF_DIR start historyserver
 sudo -u $MAPRED_USER /usr/lib/hadoop/bin/hadoop-daemon.sh --config $HADOOP_CONF_DIR start tasktracker
 
-### Run smoketest. ###
+# Run smoketest.
 sudo -u $HDFS_USER /usr/lib/hadoop/bin/hadoop jar /usr/lib/hadoop/hadoop-examples.jar teragen 100000 /test/100msort/input
 sudo -u $HDFS_USER /usr/lib/hadoop/bin/hadoop jar /usr/lib/hadoop/hadoop-examples.jar terasort /test/100msort/input /test/100msort/output
 
