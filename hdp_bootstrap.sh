@@ -129,6 +129,10 @@ sudo -u $MAPRED_USER /usr/lib/hadoop/bin/hadoop-daemon.sh --config $HADOOP_CONF_
 sudo -u $HDFS_USER /usr/lib/hadoop/bin/hadoop jar /usr/lib/hadoop/hadoop-examples.jar teragen 100000 /test/100msort/input
 sudo -u $HDFS_USER /usr/lib/hadoop/bin/hadoop jar /usr/lib/hadoop/hadoop-examples.jar terasort /test/100msort/input /test/100msort/output
 
+# Set up HDFS dir for user.
+sudo -u hdfs hadoop dfs -chown vagrant:vagrant /user/vagrant
+sudo -u hdfs hadoop dfs -mkdir /user/vagrant
+
 
 ### Install extras. ###
 for script in /vagrant/install/*.sh; do
