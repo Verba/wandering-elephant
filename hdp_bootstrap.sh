@@ -14,10 +14,12 @@ sudo yum --assumeyes update
 # http://docs.hortonworks.com/HDPDocuments/HDP1/HDP-1.2.3.1/bk_installing_manually_book/content/rpm-chap1-2.html#rpm-chap1-2-5
 # HDP says it wants Oracle JDK 1.6; I say too bad.
 sudo yum --assumeyes install java-1.7.0-openjdk.x86_64
+echo "export JAVA_HOME=/usr/lib/jvm/java-1.7.0" > ~/.bashrc
+source ~/.bashrc
 
 # Symlink java where Hadoop will look for it.
 sudo mkdir /usr/java
-sudo ln -s /usr/lib/jvm/jre-1.7.0 /usr/java/default
+sudo ln -s /usr/lib/jvm/java-1.7.0 /usr/java/default
 
 ### Set up Hortonworks package repositories. ###
 # http://docs.hortonworks.com/HDPDocuments/HDP1/HDP-1.2.3.1/bk_installing_manually_book/content/rpm-chap1-3.html
@@ -127,5 +129,9 @@ sudo -u $MAPRED_USER /usr/lib/hadoop/bin/hadoop-daemon.sh --config $HADOOP_CONF_
 sudo -u $HDFS_USER /usr/lib/hadoop/bin/hadoop jar /usr/lib/hadoop/hadoop-examples.jar teragen 100000 /test/100msort/input
 sudo -u $HDFS_USER /usr/lib/hadoop/bin/hadoop jar /usr/lib/hadoop/hadoop-examples.jar terasort /test/100msort/input /test/100msort/output
 
-### Install Sqoop. ###
-sudo yum --assumeyes install sqoop
+
+### Install extras. ###
+for script in /vagrant/install/*.sh; do
+  $script
+done
+

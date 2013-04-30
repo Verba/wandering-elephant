@@ -9,3 +9,4 @@ Usage:
   1. *vagrant up*
   1. *vagrant ssh*
 
+The *install* folder contains scripts to install various components.
