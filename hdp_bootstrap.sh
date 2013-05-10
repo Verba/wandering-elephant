@@ -13,7 +13,7 @@ sudo yum --assumeyes update
 ### Install Java ###
 # http://docs.hortonworks.com/HDPDocuments/HDP1/HDP-1.2.3.1/bk_installing_manually_book/content/rpm-chap1-2.html#rpm-chap1-2-5
 # HDP says it wants Oracle JDK 1.6; I say too bad.
-sudo yum --assumeyes install java-1.7.0-openjdk.x86_64
+sudo yum --assumeyes install java-1.7.0-openjdk-devel.x86_64
 echo "export JAVA_HOME=/usr/lib/jvm/java-1.7.0" > ~/.bashrc
 source ~/.bashrc
 
@@ -130,12 +130,12 @@ sudo -u $HDFS_USER /usr/lib/hadoop/bin/hadoop jar /usr/lib/hadoop/hadoop-example
 sudo -u $HDFS_USER /usr/lib/hadoop/bin/hadoop jar /usr/lib/hadoop/hadoop-examples.jar terasort /test/100msort/input /test/100msort/output
 
 # Set up HDFS dir for user.
-sudo -u hdfs hadoop dfs -chown vagrant:vagrant /user/vagrant
-sudo -u hdfs hadoop dfs -mkdir /user/vagrant
+sudo -u $HDFS_USER hadoop dfs -mkdir /user/vagrant
+sudo -u $HDFS_USER hadoop dfs -chown vagrant:vagrant /user/vagrant
 
 
 ### Install extras. ###
 for script in /vagrant/install/*.sh; do
-  $script
+  sudo -u vagrant bash $script
 done
 
