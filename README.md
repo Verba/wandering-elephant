@@ -1,4 +1,4 @@
-Virtual machine configured to run an [HDP 1.2](http://hortonworks.com/products/hortonworksdataplatform/) Hadoop cluster on CentOS 6.
+[Vagrant](http://www.vagrantup.com/) virtual machine configured to run an [HDP 1.2](http://hortonworks.com/products/hortonworksdataplatform/) Hadoop cluster on CentOS 6.
 
 # Usage
 
