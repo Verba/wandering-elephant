@@ -1,8 +1,6 @@
-Virtual machine so you can get up and running without manually
-installing things yourself. Currently aimed at making an environment for
-local Hadoop-based development.
+Virtual machine configured to run an [HDP 1.2](http://hortonworks.com/products/hortonworksdataplatform/) Hadoop cluster on CentOS 6.
 
-Usage:
+# Usage
 
   1. Install http://www.vagrantup.com/.
   1. Clone this repo.
